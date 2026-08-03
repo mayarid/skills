@@ -1,4 +1,5 @@
 # Mayar Skills
+<img width="1504" height="672" alt="mayar-3" src="https://github.com/user-attachments/assets/233ff1ed-9310-4f58-a154-60421754d3b8" />
 
 Agent skills for [Mayar](https://mayar.id) payment and billing integrations in
 Indonesia. The skills support QRIS, virtual accounts, e-wallets, and cards in
