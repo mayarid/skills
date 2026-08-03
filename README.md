@@ -7,27 +7,45 @@ Claude Code, Cursor, Codex, and OpenCode.
 
 > Status: **Official Mayar skill, version 2.0.0.**
 
+## Quick start
+
+The fastest installation method uses the
+[`skills` CLI](https://skills.sh):
+
+```bash
+npx skills add mayarid/skills
+```
+
+To install and start an integration in one agent session, open
+[`prompts/install-and-integrate-mayar-v2.md`](prompts/install-and-integrate-mayar-v2.md),
+copy the complete prompt, and paste it into your coding agent. The prompt
+detects the client, installs the latest stable release, validates the skill,
+and starts the BUILD workflow.
+
 ## Contents
 
 ```
-skills/
-└── mayar-v2/
-    ├── SKILL.md                    router BUILD/OPS
-    ├── playbook/
-    │   ├── discover.md             RECON + INTERVIEW
-    │   ├── plan.md                 schema + approval gate
-    │   ├── implement.md            auth + implementation
-    │   └── verify.md               verification + handoff
-    ├── references/
-    │   ├── api-sources.md          docs source map
-    │   ├── cli-commands.md         OPS command catalog
-    │   ├── webhook-safety.md       fail-closed + idempotency
-    │   ├── stack-pattern.md        generic server contract
-    │   ├── stack-nextjs.md
-    │   ├── stack-tanstack-start.md
-    │   └── stack-vite-react.md
-    └── scripts/
-        └── validate.mjs            structural drift validator
+.
+├── prompts/
+│   └── install-and-integrate-mayar-v2.md
+└── skills/
+    └── mayar-v2/
+        ├── SKILL.md                    router BUILD/OPS
+        ├── playbook/
+        │   ├── discover.md             RECON + INTERVIEW
+        │   ├── plan.md                 schema + approval gate
+        │   ├── implement.md            auth + implementation
+        │   └── verify.md               verification + handoff
+        ├── references/
+        │   ├── api-sources.md          docs source map
+        │   ├── cli-commands.md         OPS command catalog
+        │   ├── webhook-safety.md       fail-closed + idempotency
+        │   ├── stack-pattern.md        generic server contract
+        │   ├── stack-nextjs.md
+        │   ├── stack-tanstack-start.md
+        │   └── stack-vite-react.md
+        └── scripts/
+            └── validate.mjs            structural drift validator
 ```
 
 ## About version 2
@@ -49,29 +67,25 @@ Each phase has one completion criterion. The structure follows the
 [Agent Skills Specification](https://agentskills.io/specification),
 progressive disclosure, and a single source of truth.
 
-## Install
+## Manual installation
 
-```bash
-git clone https://github.com/mayarid/skills.git mayar-skills
-cd mayar-skills
+Use the [latest stable release](https://github.com/mayarid/skills/releases/latest),
+not an unpinned `main` branch. Copy its `skills/mayar-v2` directory to one
+project-local path:
 
-# Claude Code (back up an existing v1 skill first)
-cp -r skills/mayar-v2 ~/.claude/skills/mayar-v2
+| Client | Project-local path |
+|---|---|
+| Cursor | `.cursor/skills/mayar-v2` |
+| Claude Code | `.claude/skills/mayar-v2` |
+| Codex | `.agents/skills/mayar-v2` |
+| OpenCode | `.opencode/skills/mayar-v2` |
+| Gemini CLI | `.gemini/skills/mayar-v2` |
+| VS Code or GitHub Copilot | `.github/skills/mayar-v2` |
 
-# Cursor (global)
-cp -r skills/mayar-v2 ~/.cursor/skills/mayar-v2
-
-# Cursor (per project)
-cp -r skills/mayar-v2 <project>/.cursor/skills/mayar-v2
-
-# Codex
-cp -r skills/mayar-v2 ~/.codex/skills/mayar-v2
-
-# Hermes
-cp -r skills/mayar-v2 ~/.hermes/skills/mayar-v2
-```
-
-Reload or restart the agent after the copy operation.
+Create the parent directory first. If the target already exists, validate it or
+move it to a backup before replacement. Run the bundled validator after the
+copy operation. Use the client refresh command when available; otherwise,
+restart the client.
 
 ## Usage
 
@@ -111,18 +125,18 @@ The agent runs the CLI directly:
 
 | Example prompt | Command |
 |---|---|
-| `Show my Mayar balance.` | `mayar balance` |
-| `Show the last 10 invoices.` | `mayar invoice list --limit 10` |
-| `Show today's transactions.` | `mayar tx daily` |
-| `Show unpaid transactions.` | `mayar tx unpaid` |
-| `Create a membership product with three tiers.` | `mayar product create --type membership` |
-| `Register the webhook https://app.com/hooks/mayar.` | `mayar webhook register <url>` |
-| `Find and retry the last failed webhook.` | `mayar webhook history` and `mayar webhook retry <id>` |
-| `Find the customer with email budi@gmail.com.` | `mayar customer search budi@gmail.com` |
-| `Send that customer a portal magic link.` | `mayar customer magic-link <email>` |
-| `Create a QRIS payment for IDR 50,000.` | `mayar qrcode 50000` |
-| `Verify license ABC123 for product X.` | `mayar saas verify ABC123 <productId>` |
-| `Use sandbox.` | Set `MAYAR_API_URL=https://api.mayar.io/hl/v2`, then use `--sandbox`. |
+| `Show my Mayar balance.` | `npx -y mayar@latest balance` |
+| `Show the last 10 invoices.` | `npx -y mayar@latest invoice list --limit 10` |
+| `Show today's transactions.` | `npx -y mayar@latest tx daily` |
+| `Show unpaid transactions.` | `npx -y mayar@latest tx unpaid` |
+| `Create a membership product with three tiers.` | `npx -y mayar@latest product create --type membership` |
+| `Register the webhook https://app.com/hooks/mayar.` | `npx -y mayar@latest webhook register <url>` |
+| `Find and retry the last failed webhook.` | `npx -y mayar@latest webhook history` and `npx -y mayar@latest webhook retry <id>` |
+| `Find the customer with email budi@gmail.com.` | `npx -y mayar@latest customer search budi@gmail.com` |
+| `Send that customer a portal magic link.` | `npx -y mayar@latest customer magic-link <email>` |
+| `Create a QRIS payment for IDR 50,000.` | `npx -y mayar@latest qrcode 50000` |
+| `Verify license ABC123 for product X.` | `npx -y mayar@latest saas verify ABC123 <productId>` |
+| `Use sandbox.` | `MAYAR_API_URL=https://api.mayar.io/hl/v2 npx -y mayar@latest --sandbox <command>` |
 
 ## Prerequisites
 
@@ -131,7 +145,7 @@ The agent runs the CLI directly:
 - A Mayar API key from [web.mayar.id](https://web.mayar.id/api-keys) for
   production or [web.mayar.io](https://web.mayar.io/api-keys) for sandbox.
 
-## Known API limits
+## Known limitations and safety constraints
 
 - The public webhook documentation does not define a transaction ID field. The
   skill uses a fail-closed flow until documentation or an actual sample payload
@@ -146,12 +160,18 @@ From the repository root:
 
 ```bash
 node skills/mayar-v2/scripts/validate.mjs
-skills-ref validate ./skills/mayar-v2
 ```
 
 The bundled validator checks frontmatter, structure, links, Markdown fences,
-router size, and stale facts. `skills-ref` checks compatibility with the
-official format.
+router size, and stale facts.
+
+Maintainers can also use the optional official
+[`skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref)
+validator after installing its Python 3.11+ development environment:
+
+```bash
+skills-ref validate ./skills/mayar-v2
+```
 
 ## License
 
