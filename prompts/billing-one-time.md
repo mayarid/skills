@@ -12,7 +12,10 @@ Sources, read them and install nothing:
 - Skill directory: https://github.com/mayarid/skills/tree/main/skills/mayar-v2
 - Skill entry point, raw:
   https://raw.githubusercontent.com/mayarid/skills/main/skills/mayar-v2/SKILL.md
-- Mayar V2 documentation index: https://docs.mayar.id/llms.txt
+- The skill sends you to the Mayar V2 documentation index at
+  https://docs.mayar.id/llms.txt for every endpoint fact. Do not start there
+  and skip the skill: the skill holds the phase gates, the fulfillment rules,
+  and the webhook safety rules that the documentation does not carry.
 - Optional, only if I will repeat this work often, I can install the skill
   instead by following
   https://github.com/mayarid/skills/blob/main/prompts/install-and-integrate-mayar-v2.md
