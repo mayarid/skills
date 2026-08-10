@@ -105,8 +105,10 @@ Add Mayar payments to this website.
 ```
 
 The sales model determines the endpoint. Each model also has a full
-copy-and-paste prompt. Paste it without editing it. The agent asks for
-everything else that it needs.
+copy-and-paste prompt. Paste it without editing it. These prompts need no
+installation: the agent reads `skills/mayar-v2` straight from this repository,
+then reads the live Mayar V2 documentation. The agent asks for everything else
+that it needs.
 
 | Example prompt | Model | Main endpoint | Full prompt |
 |---|---|---|---|

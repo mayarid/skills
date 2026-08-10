@@ -3,8 +3,9 @@ Add installment billing to this project with Mayar.
 Goal:
 - Let a customer pay a large price across several months, with one payment
   link per month and a clear due date.
-- Use the mayar-v2 agent skill for the whole build, so the endpoints come from
-  the live Mayar V2 documentation instead of guesswork.
+- Follow the mayar-v2 skill instructions, read straight from the repository
+  with no installation, so the endpoints come from the live Mayar V2
+  documentation instead of guesswork.
 - Get a Mayar API key working WITHOUT ever exposing, printing, or pasting the
   key into this chat.
 
@@ -17,10 +18,13 @@ Known limit, read this before you start:
   months, the allowed due dates, and how interest is applied. Do not accept a
   remembered range.
 
-Skill source:
-- Repository: https://github.com/mayarid/skills
-- Install command: npx skills add mayarid/skills
-- Strict alternative, when you need a pinned release with checksum validation:
+Sources, read them and install nothing:
+- Skill directory: https://github.com/mayarid/skills/tree/main/skills/mayar-v2
+- Skill entry point, raw:
+  https://raw.githubusercontent.com/mayarid/skills/main/skills/mayar-v2/SKILL.md
+- Mayar V2 documentation index: https://docs.mayar.id/llms.txt
+- Optional, only if I will repeat this work often, I can install the skill
+  instead by following
   https://github.com/mayarid/skills/blob/main/prompts/install-and-integrate-mayar-v2.md
 
 Shell note:
@@ -31,11 +35,14 @@ Shell note:
   translation: never print the key.
 
 What to do:
-1. Install the skill FIRST, before any key setup. Check whether mayar-v2 is
-   already available to this agent. If it is not, run:
-   npx skills add mayarid/skills
-   Then confirm that the skill's SKILL.md, playbook/, and references/ exist.
-   Do not download a single file by hand — mayar-v2 is a multi-file skill.
+1. Read the skill FIRST, before any key setup. Install nothing. Fetch
+   https://raw.githubusercontent.com/mayarid/skills/main/skills/mayar-v2/SKILL.md
+   and follow it exactly. It is a router: it names the file to read for each
+   phase. Resolve every relative link in it against that same directory, for
+   example playbook/discover.md and ../references/api-sources.md, and fetch
+   each file when the phase needs it.
+   Nothing is stored on my machine, so this applies to the current session
+   only. Fetch a file again if you lose it.
 2. Check whether a Mayar API key is already available FROM YOUR OWN
    COMMAND-RUNNING ENVIRONMENT — use the same shell you will run the build
    with, not by asking me to echo it:
@@ -71,11 +78,12 @@ What to do:
      payment.
    - What happens when a monthly payment is late or missed.
    - Where I track who is still paying, if anywhere.
-7. Run the skill's BUILD branch and follow every phase gate exactly. Get my
-   approval on the plan before you change any file. One plan produces many
-   monthly payments, so the plan must say how my system reacts to each one,
-   not only to the first. Tell me early if my application must be reachable
-   from the internet to receive payment notifications, and how to do that.
+7. Follow the BUILD branch in SKILL.md, and every phase gate in it, exactly.
+   Get my approval on the plan before you change any file. One plan produces
+   many monthly payments, so the plan must say how my system reacts to each
+   one, not only to the first. Tell me early if my application must be
+   reachable from the internet to receive payment notifications, and how to
+   do that.
 8. Verify in sandbox and report. Prove that the plan is created with the
    correct number of months and the correct total, and that a payment for one
    month updates my system once. Say clearly that later months are not
