@@ -27,7 +27,14 @@ and starts the BUILD workflow.
 ```
 .
 ├── prompts/
-│   └── install-and-integrate-mayar-v2.md
+│   ├── install-and-integrate-mayar-v2.md
+│   ├── billing-one-time.md         one-time payment
+│   ├── billing-invoice.md          itemized invoice
+│   ├── billing-subscription.md     recurring membership
+│   ├── billing-credit.md           prepaid credit wallet
+│   ├── billing-license.md          software license
+│   ├── billing-qris.md             dynamic QRIS
+│   └── billing-installment.md      monthly installment
 └── skills/
     └── mayar-v2/
         ├── SKILL.md                    router BUILD/OPS
@@ -97,17 +104,31 @@ For this prompt, the agent runs Discover, Plan, Implement, and Verify:
 Add Mayar payments to this website.
 ```
 
-The sales model determines the endpoint:
+The sales model determines the endpoint. Each model also has a full
+copy-and-paste prompt. Paste it without editing it. These prompts need no
+installation: the agent reads `skills/mayar-v2` straight from this repository,
+then reads the live Mayar V2 documentation. The agent asks for everything else
+that it needs.
 
-| Example prompt | Model | Main endpoint |
-|---|---|---|
-| `Add payments so that I can sell an ebook.` | One-time payment | Payment link |
-| `Create a digital-product checkout. Give the user a download link after payment.` | One-time payment and fulfillment | Payment link and webhook provisioning |
-| `Add Mayar invoices for project-based client billing.` | Itemized invoice | Invoice create and `extraData` |
-| `Create a monthly subscription for premium content.` | Membership or subscription | Membership register and invoice per term |
-| `Let users buy credit. Deduct credit for each AI request.` | Credit usage | Credit add, spend, and balance |
-| `Sell software licenses that users activate with a code.` | SaaS or software license | SaaS activate and verify |
-| `Create an on-demand QRIS payment for a cash register.` | Dynamic QRIS | QR code create |
+| Example prompt | Model | Main endpoint | Full prompt |
+|---|---|---|---|
+| `Add payments so that I can sell an ebook.` | One-time payment | Payment link | [`billing-one-time.md`](prompts/billing-one-time.md) |
+| `Create a digital-product checkout. Give the user a download link after payment.` | One-time payment and fulfillment | Payment link and webhook provisioning | [`billing-one-time.md`](prompts/billing-one-time.md) |
+| `Add Mayar invoices for project-based client billing.` | Itemized invoice | Invoice create and `extraData` | [`billing-invoice.md`](prompts/billing-invoice.md) |
+| `Create a monthly subscription for premium content.` | Membership or subscription | Membership register and invoice per term | [`billing-subscription.md`](prompts/billing-subscription.md) |
+| `Let users buy credit. Deduct credit for each AI request.` | Credit usage | Credit add, spend, and balance | [`billing-credit.md`](prompts/billing-credit.md) |
+| `Sell software licenses that users activate with a code.` | SaaS or software license | SaaS activate and verify | [`billing-license.md`](prompts/billing-license.md) |
+| `Create an on-demand QRIS payment for a cash register.` | Dynamic QRIS | QR code create | [`billing-qris.md`](prompts/billing-qris.md) |
+| `Let buyers pay for a course across 12 months.` | Installment | Installment create | [`billing-installment.md`](prompts/billing-installment.md) |
+
+Two prompts carry a limit. Read it at the top of the file before you paste it:
+
+- **Dynamic QRIS**: the public V2 documentation defines no identifier for a
+  dynamic QR code and no webhook payload, so the application cannot confirm
+  that one QRIS payment succeeded. Plan for dashboard reconciliation.
+- **Installment**: this model is newer than the skill. The interview in
+  `playbook/discover.md` does not list it, so the agent reads the installment
+  documentation from the start and asks more questions.
 
 The project situation determines the reference:
 
