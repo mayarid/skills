@@ -23,6 +23,13 @@ Skill source:
 - Strict alternative, when you need a pinned release with checksum validation:
   https://github.com/mayarid/skills/blob/main/prompts/install-and-integrate-mayar-v2.md
 
+Shell note:
+- The commands below are POSIX shell, for bash or zsh. If your shell is
+  PowerShell, cmd, or fish, translate them before you run them. That includes
+  the presence test in step 2, the `export` in step 3, and the inline
+  `MAYAR_API_URL=...` prefix in step 4. Keep the rule intact in every
+  translation: never print the key.
+
 What to do:
 1. Install the skill FIRST, before any key setup. Check whether mayar-v2 is
    already available to this agent. If it is not, run:
