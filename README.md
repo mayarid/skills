@@ -174,20 +174,20 @@ The project situation determines the reference:
 
 The agent runs the CLI directly:
 
-| Example prompt | Command |
-|---|---|
-| `Show my Mayar balance.` | `npx -y mayar@latest balance` |
-| `Show the last 10 invoices.` | `npx -y mayar@latest invoice list --limit 10` |
-| `Show today's transactions.` | `npx -y mayar@latest tx daily` |
-| `Show unpaid transactions.` | `npx -y mayar@latest tx unpaid` |
-| `Create a membership product with three tiers.` | `npx -y mayar@latest product create --type membership` |
-| `Register the webhook https://app.com/hooks/mayar.` | `npx -y mayar@latest webhook register <url>` |
-| `Find and retry the last failed webhook.` | `npx -y mayar@latest webhook history` and `npx -y mayar@latest webhook retry <id>` |
-| `Find the customer with email budi@gmail.com.` | `npx -y mayar@latest customer search budi@gmail.com` |
-| `Send that customer a portal magic link.` | `npx -y mayar@latest customer magic-link <email>` |
-| `Create a QRIS payment for IDR 50,000.` | `npx -y mayar@latest qrcode 50000` |
-| `Verify license ABC123 for product X.` | `npx -y mayar@latest saas verify ABC123 <productId>` |
-| `Use sandbox.` | `MAYAR_API_URL=https://api.mayar.io/hl/v2 npx -y mayar@latest --sandbox <command>` |
+| Example prompt | Agent action | Command |
+|---|---|---|
+| `Show my Mayar balance.` | Read the account balance. | `npx -y mayar@latest balance` |
+| `Show the last 10 invoices.` | List invoices and apply the limit. | `npx -y mayar@latest invoice list --limit 10` |
+| `Show today's transactions.` | Read today's transactions. | `npx -y mayar@latest tx daily` |
+| `Show unpaid transactions.` | Read transactions that are not paid. | `npx -y mayar@latest tx unpaid` |
+| `Create a membership product with three tiers.` | Ask for the environment, then create the product. | `npx -y mayar@latest product create --type membership` |
+| `Register the webhook https://app.com/hooks/mayar.` | Ask for the environment, then register the URL. | `npx -y mayar@latest webhook register <url>` |
+| `Find and retry the last failed webhook.` | Read the history, identify the failed delivery, then retry that ID. | `npx -y mayar@latest webhook history` and `npx -y mayar@latest webhook retry <id>` |
+| `Find the customer with email budi@gmail.com.` | Search customers by email. | `npx -y mayar@latest customer search budi@gmail.com` |
+| `Send that customer a portal magic link.` | Ask for the environment, then send the link to that email. | `npx -y mayar@latest customer magic-link <email>` |
+| `Create a QRIS payment for IDR 50,000.` | Ask for the environment, then create the QR code. | `npx -y mayar@latest qrcode 50000` |
+| `Verify license ABC123 for product X.` | Verify the license against the product ID. | `npx -y mayar@latest saas verify ABC123 <productId>` |
+| `Use sandbox.` | Override the base URL for the whole session. | `MAYAR_API_URL=https://api.mayar.io/hl/v2 npx -y mayar@latest --sandbox <command>` |
 
 ### LEARN: questions about Mayar
 
