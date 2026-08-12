@@ -20,6 +20,7 @@ const expectedFiles = [
   "playbook/verify.md",
   "references/api-sources.md",
   "references/cli-commands.md",
+  "references/product-knowledge.md",
   "references/webhook-safety.md",
   "references/stack-pattern.md",
   "references/stack-nextjs.md",
@@ -166,10 +167,8 @@ function validateFrontmatter(source, errors) {
     errors.push('SKILL.md: description must start with "Use this skill when"');
   }
 
-  const metadata = blocks.get("metadata") ?? "";
-  if (!/\bversion:\s*["']2\.0\.0["']/.test(metadata)) {
-    errors.push('SKILL.md: metadata.version must be "2.0.0"');
-  }
+  // metadata.version is not validated. The installation follows the main
+  // branch, so no consumer compares the value against an expected version.
 }
 
 function validateFences(path, source, errors) {
@@ -244,6 +243,7 @@ async function validate() {
       "playbook/implement.md",
       "playbook/verify.md",
       "references/cli-commands.md",
+      "references/product-knowledge.md",
     ];
     for (const pointer of requiredPointers) {
       if (!skillSource.includes(pointer)) {

@@ -13,6 +13,23 @@ not a schema snapshot.
 Do not use V1 documentation, model memory, CLI cache, or old test results as a
 BUILD schema source. Use CLI `--help` only for CLI syntax.
 
+## Fallback order
+
+Use this order. Do not skip a step, and do not start at a later step.
+
+1. `llms.txt`, then the endpoint `.md` URL. This is the normal path.
+2. The endpoint `.md` URL directly, when `llms.txt` is unreachable but the page
+   path is already known.
+3. Last option only: fetch [`https://docs.mayar.id`](https://docs.mayar.id) with
+   a web tool and navigate to the V2 page. Use this step only after steps 1 and
+   2 fail.
+
+Step 3 is expensive. One documentation page as HTML is approximately 86 times
+the size of the same `.md` page. Read one page, take only the fields that the
+task requires, and tell the user that you used the fallback.
+
+If step 3 also fails, stop and report the blocker. Do not estimate a field.
+
 ## Stable transport invariants
 
 Sumber: [V2 Introduction](https://docs.mayar.id/api-reference-v2/introduction.md).

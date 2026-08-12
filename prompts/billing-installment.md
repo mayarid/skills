@@ -28,7 +28,7 @@ Sources, read them and install nothing:
   and the webhook safety rules that the documentation does not carry.
 - Optional, only if I will repeat this work often, I can install the skill
   instead by following
-  https://github.com/mayarid/skills/blob/main/prompts/install-and-integrate-mayar-v2.md
+  https://github.com/mayarid/skills/blob/main/prompts/install-mayar-v2.md
 
 Shell note:
 - The commands below are POSIX shell, for bash or zsh. If your shell is

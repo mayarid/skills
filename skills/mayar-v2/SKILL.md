@@ -5,10 +5,12 @@ description: >
   into an application—checkout, payment links, invoices, memberships,
   subscriptions, credit wallets, licenses, QRIS, or webhooks—or operate their
   Mayar account from the terminal, including balance, products, customers,
-  transactions, invoices, and webhook administration.
+  transactions, invoices, and webhook administration—or ask what Mayar is, what
+  it does, which payment methods it accepts, or how its features, account
+  setup, and business verification work.
 compatibility: Requires network access to Mayar documentation and API. OPS commands require Node.js 18+ and npx.
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # Mayar
@@ -18,9 +20,17 @@ Select one branch from the user request:
 - **BUILD** — Add a Mayar integration to an application. This branch includes
   the UI, server, persistent data, and fulfillment.
 - **OPS** — Manage or test a Mayar account from the terminal.
+- **LEARN** — Answer a question about Mayar itself. This branch reads
+  documentation and changes nothing.
 
 Use the Mayar V2 documentation for API facts. Use
 `npx -y mayar@latest <command> --help` for CLI syntax.
+
+## LEARN
+
+Read [references/product-knowledge.md](references/product-knowledge.md). Follow
+only that file. Do not load the BUILD playbook. Do not run CLI commands. Do not
+change any file.
 
 ## OPS
 

@@ -3,9 +3,10 @@
 
 Agent skills for [Mayar](https://mayar.id) payment and billing integrations in
 Indonesia. The skills support QRIS, virtual accounts, e-wallets, and cards in
-Claude Code, Cursor, Codex, and OpenCode.
+Claude Code, Codex, Cursor, Hermes Agent, OpenClaw, OpenCode, and any other
+client that the [`skills` CLI](https://skills.sh) supports.
 
-> Status: **Official Mayar skill, version 2.0.0.**
+> Status: **Official Mayar skill, version 2.1.0.**
 
 ## Quick start
 
@@ -13,21 +14,40 @@ The fastest installation method uses the
 [`skills` CLI](https://skills.sh):
 
 ```bash
-npx skills add mayarid/skills
+npx skills add mayarid/skills --skill mayar-v2 --global --yes
 ```
 
-To install and start an integration in one agent session, open
-[`prompts/install-and-integrate-mayar-v2.md`](prompts/install-and-integrate-mayar-v2.md),
-copy the complete prompt, and paste it into your coding agent. The prompt
-detects the client, installs the latest stable release, validates the skill,
-and starts the BUILD workflow.
+To let an agent install the skill for you, open the prompt for your client,
+copy the complete file, and paste it into that agent. Each prompt installs the
+skill, checks the files, asks you to confirm that the client sees it, and then
+asks what you want to do. It does not start an integration.
+
+| Client | Prompt |
+|---|---|
+| Claude Code | [`install-claude-code.md`](prompts/install-claude-code.md) |
+| Codex | [`install-codex.md`](prompts/install-codex.md) |
+| Cursor | [`install-cursor.md`](prompts/install-cursor.md) |
+| Hermes Agent | [`install-hermes-agent.md`](prompts/install-hermes-agent.md) |
+| OpenClaw | [`install-openclaw.md`](prompts/install-openclaw.md) |
+| Any other client | [`install-mayar-v2.md`](prompts/install-mayar-v2.md) |
+
+Cowork, the Claude desktop app, and cloud sessions do not read
+`~/.claude/skills/` on your machine. They load the skills enabled for your
+claude.ai account. Enable the skill from **Customize** in the desktop app
+sidebar, or from the skills settings on claude.ai. Cloud sessions also load a
+skill committed to the repository's `.claude/skills/`.
 
 ## Contents
 
 ```
 .
 ├── prompts/
-│   ├── install-and-integrate-mayar-v2.md
+│   ├── install-mayar-v2.md         install, any client
+│   ├── install-claude-code.md      install, Claude Code
+│   ├── install-codex.md            install, Codex
+│   ├── install-cursor.md           install, Cursor
+│   ├── install-hermes-agent.md     install, Hermes Agent
+│   ├── install-openclaw.md         install, OpenClaw
 │   ├── billing-one-time.md         one-time payment
 │   ├── billing-invoice.md          itemized invoice
 │   ├── billing-subscription.md     recurring membership
@@ -37,7 +57,7 @@ and starts the BUILD workflow.
 │   └── billing-installment.md      monthly installment
 └── skills/
     └── mayar-v2/
-        ├── SKILL.md                    router BUILD/OPS
+        ├── SKILL.md                    router BUILD/OPS/LEARN
         ├── playbook/
         │   ├── discover.md             RECON + INTERVIEW
         │   ├── plan.md                 schema + approval gate
@@ -46,6 +66,7 @@ and starts the BUILD workflow.
         ├── references/
         │   ├── api-sources.md          docs source map
         │   ├── cli-commands.md         OPS command catalog
+        │   ├── product-knowledge.md    LEARN answer rules
         │   ├── webhook-safety.md       fail-closed + idempotency
         │   ├── stack-pattern.md        generic server contract
         │   ├── stack-nextjs.md
@@ -76,18 +97,27 @@ progressive disclosure, and a single source of truth.
 
 ## Manual installation
 
-Use the [latest stable release](https://github.com/mayarid/skills/releases/latest),
-not an unpinned `main` branch. Copy its `skills/mayar-v2` directory to one
-project-local path:
+Copy the `skills/mayar-v2` directory of this repository to one path below. To
+pin a version instead of `main`, copy it from the
+[latest stable release](https://github.com/mayarid/skills/releases/latest).
 
-| Client | Project-local path |
-|---|---|
-| Cursor | `.cursor/skills/mayar-v2` |
-| Claude Code | `.claude/skills/mayar-v2` |
-| Codex | `.agents/skills/mayar-v2` |
-| OpenCode | `.opencode/skills/mayar-v2` |
-| Gemini CLI | `.gemini/skills/mayar-v2` |
-| VS Code or GitHub Copilot | `.github/skills/mayar-v2` |
+Add `/mayar-v2` to the end of each path. The user path applies to every project.
+The project path applies to one repository.
+
+| Client | Project path | User path |
+|---|---|---|
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Codex | `.agents/skills/` | `~/.agents/skills/` |
+| Cursor | `.cursor/skills/` or `.agents/skills/` | `~/.cursor/skills/` |
+| Hermes Agent | `.hermes/skills/` | `~/.hermes/skills/` |
+| OpenClaw | `<workspace>/skills/` | `~/.openclaw/skills/` |
+| OpenCode | `.opencode/skills/` or `.agents/skills/` | `~/.config/opencode/skills/` |
+| Gemini CLI | `.agents/skills/` | `~/.gemini/skills/` |
+| GitHub Copilot | `.agents/skills/` | `~/.copilot/skills/` |
+
+Cursor and OpenCode read `.agents/skills/` in addition to their own directory.
+The Codex user path comes from the Codex documentation; the `skills` CLI writes
+Codex skills to `~/.codex/skills/` instead.
 
 Create the parent directory first. If the target already exists, validate it or
 move it to a backup before replacement. Run the bundled validator after the
@@ -158,6 +188,25 @@ The agent runs the CLI directly:
 | `Create a QRIS payment for IDR 50,000.` | `npx -y mayar@latest qrcode 50000` |
 | `Verify license ABC123 for product X.` | `npx -y mayar@latest saas verify ABC123 <productId>` |
 | `Use sandbox.` | `MAYAR_API_URL=https://api.mayar.io/hl/v2 npx -y mayar@latest --sandbox <command>` |
+
+### LEARN: questions about Mayar
+
+The agent reads the Mayar documentation and answers. It changes no file and
+runs no command:
+
+| Example prompt | Agent action |
+|---|---|
+| `What is Mayar?` | Read the documentation and answer with the pages used. |
+| `Which payment methods can Mayar accept?` | Read `onlinepaymentmethod`. |
+| `How do I verify my business?` | Read `businessverify`. |
+| `Can Mayar sell an online course?` | Read the product page for that type. |
+| `What does merchant of record mean here?` | Read the `mor/` pages. |
+| `How is Mayar different from another payment gateway?` | Describe Mayar from the documentation only. |
+
+Two limits apply. The agent answers only what a documentation page states; it
+reports a missing fee or limit instead of estimating it. The documentation
+describes Mayar alone, so the agent does not describe, rank, or price another
+provider. Ask Mayar support about commercial terms, pricing, or account status.
 
 ## Prerequisites
 
