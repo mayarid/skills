@@ -22,7 +22,8 @@ The checkout server route must:
 2. Validate the request against trusted product data.
 3. Build configuration from server environment variables.
 4. Call the endpoint helper selected in Phase 2.
-5. Return `{ url }` or a mapped error response.
+5. Return `{ url }` or a mapped error response. For `native`, also return the
+   normalized instrument.
 
 If the project version uses `createFileRoute` with `server.handlers`, use this
 minimum structure:
@@ -42,7 +43,8 @@ export const Route = createFileRoute("/api/checkout")({
 
 ## Client and webhook
 
-The CTA calls the checkout route and shows loading and error states. It redirects
-only after URL validation. The webhook route uses the same server-handler
+The CTA calls the checkout route and shows loading and error states. After URL
+validation it follows the approved checkout type in
+`references/stack-pattern.md`. The webhook route uses the same server-handler
 structure. Its evidence gate and persistent data must comply with
 `references/webhook-safety.md`.

@@ -22,13 +22,21 @@ a fail-closed flow. Do not estimate the field.
 The plan must include:
 
 - The sales model and the approved fulfillment operation.
+- The checkout type: `hosted`, `embedded`, or `native`.
 - The documentation pages and endpoints.
 - Files to create, change, or delete.
 - Server-only variables: `MAYAR_API_KEY`, `MAYAR_ENV`, and `APP_URL`.
-- Checkout, CTA or pricing, redirect, persistent data, and fulfillment.
+- Checkout presentation, CTA or pricing, persistent data, and fulfillment.
 - Idempotency and failure recovery.
 - Webhook limits when the transaction ID is not verified.
 - The implementation and sandbox verification sequence.
+
+For `hosted` and `embedded`, the documented field is `link`. `embedded` adds
+client overlay presentation only. Do not add undocumented request fields.
+
+For `native`, read `paymentMethod` from the create page. `paymentDetail` has
+no V2 page. Use the fail-closed parser in
+[checkout-native.md](../references/checkout-native.md).
 
 Describe the fulfillment operation precisely. Identify the record, changed
 fields, and access conditions. Ask the user to revise the plan or give explicit

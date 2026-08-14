@@ -63,6 +63,6 @@ The React CTA must:
 
 - Be disabled while the request is active.
 - Map an error response to a user message.
-- Validate `url` before a redirect.
+- Validate `url` before redirect, overlay, or fallback.
 - Use the relative path `/api/checkout`.
 - Never receive the API key, the authoritative amount, or fulfillment authority.

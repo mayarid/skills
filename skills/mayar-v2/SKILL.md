@@ -2,15 +2,15 @@
 name: mayar-v2
 description: >
   Use this skill when the user wants to integrate Mayar payments or billing
-  into an application—checkout, payment links, invoices, memberships,
-  subscriptions, credit wallets, licenses, QRIS, or webhooks—or operate their
-  Mayar account from the terminal, including balance, products, customers,
-  transactions, invoices, and webhook administration—or ask what Mayar is, what
-  it does, which payment methods it accepts, or how its features, account
-  setup, and business verification work.
+  into an application—hosted, embedded, or native checkout, payment links,
+  invoices, memberships, subscriptions, credit wallets, licenses, QRIS, or
+  webhooks—or operate their Mayar account from the terminal, including
+  balance, products, customers, transactions, invoices, and webhook
+  administration—or ask what Mayar is, what it does, which payment methods it
+  accepts, or how its features, account setup, and business verification work.
 compatibility: Requires network access to Mayar documentation and API. OPS commands require Node.js 18+ and npx.
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # Mayar

@@ -31,7 +31,11 @@ Ask about these decisions in this order. Skip a decision that is already
 explicit:
 
 1. Sales model: one-time payment, invoice, membership, credit, or license.
-2. Checkout type: hosted Mayar page or an invoice flow in the official schema.
+2. Checkout type. Read [checkout-types.md](../references/checkout-types.md)
+   first. Offer exactly `hosted`, `embedded`, and `native`. Recommend `hosted`.
+   If the user wants to stay on the site and does not name the form owner, ask
+   `embedded` versus `native`. Do not choose for them. Record one of those
+   three values.
 3. CTA or checkout location in the application.
 4. Pricing page requirement.
 5. User interface after payment.
@@ -49,6 +53,7 @@ This phase is complete only when:
 
 - The stack, server runtime, environment file, persistent storage, and
   monetization surfaces are known or marked as unavailable.
+- Checkout type is recorded as `hosted`, `embedded`, or `native`.
 - Each decision in this file is recorded.
 - The user confirms the exact fulfillment operation.
 - The webhook requirement and available evidence are known.

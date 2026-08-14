@@ -48,6 +48,17 @@ Tell the user to read that provider's own documentation for its side.
 Do not claim that Mayar is better, cheaper, or faster than another service. That
 claim is not in the documentation.
 
+## Checkout presentation
+
+`llms.txt` has no page for embed, iframe, overlay, hosted checkout, or native
+checkout. Create pages document `link` and, on invoice and payment-request
+create, `paymentMethod`.
+
+If the user asks whether Mayar supports an overlay or an iframe, say that the
+documentation does not define that presentation. Name the create page and the
+`link` field. Do not describe an embed SDK. Do not cite engineer guidance in
+LEARN.
+
 ## When the documentation has no answer
 
 Say so plainly. Offer the closest documented page. Send the user to

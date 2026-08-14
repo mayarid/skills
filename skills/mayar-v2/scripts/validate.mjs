@@ -26,6 +26,9 @@ const expectedFiles = [
   "references/stack-nextjs.md",
   "references/stack-tanstack-start.md",
   "references/stack-vite-react.md",
+  "references/checkout-types.md",
+  "references/checkout-embedded.md",
+  "references/checkout-native.md",
   "scripts/validate.mjs",
 ];
 

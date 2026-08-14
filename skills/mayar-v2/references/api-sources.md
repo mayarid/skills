@@ -32,7 +32,7 @@ If step 3 also fails, stop and report the blocker. Do not estimate a field.
 
 ## Stable transport invariants
 
-Sumber: [V2 Introduction](https://docs.mayar.id/api-reference-v2/introduction.md).
+Source: [V2 Introduction](https://docs.mayar.id/api-reference-v2/introduction.md).
 
 - Production: `https://api.mayar.id/hl/v2`
 - Sandbox: `https://api.mayar.io/hl/v2`
@@ -71,3 +71,7 @@ Find the current page through `llms.txt`. Relevant page groups include:
 
 Read field lists such as `paymentMethod` from the endpoint page during the task.
 Do not copy these lists to a local reference.
+
+Checkout type does not change the source map. `hosted` and `embedded` use
+`data.link`. `native` also reads `paymentMethod` from the same create page.
+There is no embed or `paymentDetail` page in `llms.txt`.

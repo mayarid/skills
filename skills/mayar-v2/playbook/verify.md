@@ -7,11 +7,17 @@ match the available evidence.
 
 1. Run the formatter, build, type check, and project tests.
 2. Create a checkout or invoice in sandbox.
-3. Ask the user to complete a manual payment action when required.
-4. Fetch the transaction again. Use only a verified transaction ID.
-5. Make sure that the official status is `paid` before fulfillment.
-6. Test duplicate delivery and fulfillment failure when the flow uses a webhook.
-7. Make sure that the system grants the entitlement one time. Make sure that a
+3. Prove the approved checkout type:
+   - `hosted` → the client assigns the documented `link`.
+   - `embedded` → an overlay iframe loads the documented `link` on the same
+     page. A blocked iframe shows the hosted fallback.
+   - `native` → the page renders the instrument for the pinned
+     `paymentMethod`, or falls back to the hosted `link`.
+4. Ask the user to complete a manual payment action when required.
+5. Fetch the transaction again. Use only a verified transaction ID.
+6. Make sure that the official status is `paid` before fulfillment.
+7. Test duplicate delivery and fulfillment failure when the flow uses a webhook.
+8. Make sure that the system grants the entitlement one time. Make sure that a
    retry can recover a `failed` state or an expired lease.
 
 Ask for permission before you start a development server. If sandbox cannot

@@ -19,8 +19,9 @@ excludes `.env*`.
 ## Checkout route
 
 The Route Handler must call the helper with server-only configuration. It must
-get the product and amount from trusted server data. It then returns the hosted
-URL.
+get the product and amount from trusted server data. It then returns `{ url }`
+from the documented `link`. For `native`, also return the normalized
+instrument.
 
 ```ts
 import { NextResponse } from "next/server";
@@ -46,8 +47,8 @@ Mayar library.
 ## Client CTA
 
 The client component must call only `/api/checkout`. It must show loading and
-error states. It must verify a successful response and a valid URL before it
-calls `window.location.assign(url)`.
+error states. It must verify a successful response and a valid URL. Then it
+follows the approved checkout type in `references/stack-pattern.md`.
 
 ## Webhook
 

@@ -25,6 +25,12 @@ Always read `references/stack-pattern.md`. Then read one wiring reference:
 - `references/stack-tanstack-start.md`
 - `references/stack-vite-react.md`
 
+Then read the checkout reference for the approved type:
+
+- `hosted` → no extra file. Use the stack redirect.
+- `embedded` → `references/checkout-embedded.md`
+- `native` → `references/checkout-native.md`
+
 For another stack, adapt the generic contract to the project runtime. If the
 flow uses a webhook or asynchronous fulfillment, read
 `references/webhook-safety.md` before you write the handler.
@@ -34,9 +40,10 @@ flow uses a webhook or asynchronous fulfillment, read
 - Implement each file in the plan, not only the Mayar helper.
 - Put API calls, the key, and fulfillment in the server runtime.
 - Add a server function or Worker for a client-only SPA.
-- Add loading, documented error, and redirect states to the UI.
-- Use the redirect only for the user interface. Grant access only after payment
-  status verification.
+- Add loading, documented error, and the presentation states for the approved
+  checkout type.
+- Use redirect, overlay return, or a rendered instrument only for the user
+  interface. Grant access only after payment status verification.
 - Compare each request and response with the documentation selected in Phase 2.
 - Use persistent storage and database transactions that match the project
   model.

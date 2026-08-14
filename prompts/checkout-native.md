@@ -1,5 +1,9 @@
 # Native Checkout
 
+Checkout type is `native`. Do not ask the user to pick hosted, embedded, or
+native. The mayar-v2 skill now offers those three types. This prompt locks
+native.
+
 Build a Mayar checkout that renders the payment instrument inside the
 application. This document covers production only.
 

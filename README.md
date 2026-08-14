@@ -6,7 +6,7 @@ Indonesia. The skills support QRIS, virtual accounts, e-wallets, and cards in
 Claude Code, Codex, Cursor, Hermes Agent, OpenClaw, OpenCode, and any other
 client that the [`skills` CLI](https://skills.sh) supports.
 
-> Status: **Official Mayar skill, version 2.1.0.**
+> Status: **Official Mayar skill, version 2.2.0.**
 
 ## Quick start
 
@@ -54,7 +54,10 @@ skill committed to the repository's `.claude/skills/`.
 │   ├── billing-credit.md           prepaid credit wallet
 │   ├── billing-license.md          software license
 │   ├── billing-qris.md             dynamic QRIS
-│   └── billing-installment.md      monthly installment
+│   ├── billing-installment.md      monthly installment
+│   ├── checkout-hosted.md          redirect to Mayar page
+│   ├── checkout-embedded.md        overlay iframe of `link`
+│   └── checkout-native.md          render instruments in-app
 └── skills/
     └── mayar-v2/
         ├── SKILL.md                    router BUILD/OPS/LEARN
@@ -68,6 +71,9 @@ skill committed to the repository's `.claude/skills/`.
         │   ├── cli-commands.md         OPS command catalog
         │   ├── product-knowledge.md    LEARN answer rules
         │   ├── webhook-safety.md       fail-closed + idempotency
+        │   ├── checkout-types.md       hosted / embedded / native
+        │   ├── checkout-embedded.md    overlay iframe of `link`
+        │   ├── checkout-native.md      in-app instruments
         │   ├── stack-pattern.md        generic server contract
         │   ├── stack-nextjs.md
         │   ├── stack-tanstack-start.md
@@ -90,6 +96,8 @@ for coding agents:
 - **Conditional security**: The agent loads webhook safety instructions only
   for a webhook flow.
 - **Portable OPS**: The CLI catalog is separate from API facts.
+- **Checkout types**: Discover records `hosted`, `embedded`, or `native`.
+  The sales model still selects the endpoint.
 
 Each phase has one completion criterion. The structure follows the
 [Agent Skills Specification](https://agentskills.io/specification),
@@ -134,11 +142,20 @@ For this prompt, the agent runs Discover, Plan, Implement, and Verify:
 Add Mayar payments to this website.
 ```
 
-The sales model determines the endpoint. Each model also has a full
-copy-and-paste prompt. Paste it without editing it. These prompts need no
-installation: the agent reads `skills/mayar-v2` straight from this repository,
-then reads the live Mayar V2 documentation. The agent asks for everything else
-that it needs.
+The sales model determines the endpoint. The checkout type determines the
+buyer presentation. Discover asks for one of `hosted`, `embedded`, or
+`native`. Recommend `hosted` unless the user already refused a redirect.
+
+| Checkout type | Buyer stays | Who renders the form | Documented API field | Full prompt |
+|---|---|---|---|---|
+| Hosted Mayar page | No | Mayar | `link` | [`checkout-hosted.md`](prompts/checkout-hosted.md) |
+| Embedded checkout | Yes | Mayar page in an overlay | `link` | [`checkout-embedded.md`](prompts/checkout-embedded.md) |
+| Custom native checkout | Yes | The application | `paymentMethod` | [`checkout-native.md`](prompts/checkout-native.md) |
+
+Each sales model also has a full copy-and-paste prompt. Paste it without
+editing it. These prompts need no installation: the agent reads
+`skills/mayar-v2` straight from this repository, then reads the live Mayar V2
+documentation. The agent asks for everything else that it needs.
 
 | Example prompt | Model | Main endpoint | Full prompt |
 |---|---|---|---|
@@ -151,7 +168,8 @@ that it needs.
 | `Create an on-demand QRIS payment for a cash register.` | Dynamic QRIS | QR code create | [`billing-qris.md`](prompts/billing-qris.md) |
 | `Let buyers pay for a course across 12 months.` | Installment | Installment create | [`billing-installment.md`](prompts/billing-installment.md) |
 
-Two prompts carry a limit. Read it at the top of the file before you paste it:
+Several prompts carry a limit. Read it at the top of the file before you paste
+it:
 
 - **Dynamic QRIS**: the public V2 documentation defines no identifier for a
   dynamic QR code and no webhook payload, so the application cannot confirm
@@ -159,12 +177,18 @@ Two prompts carry a limit. Read it at the top of the file before you paste it:
 - **Installment**: this model is newer than the skill. The interview in
   `playbook/discover.md` does not list it, so the agent reads the installment
   documentation from the start and asks more questions.
+- **Embedded checkout**: `llms.txt` has no embed or iframe page. The
+  documented field is `link`. The overlay is client presentation of that URL.
+- **Native checkout**: invoice create documents `paymentMethod`. No V2 page
+  defines `paymentDetail`. The parser must fall back to the hosted `link`.
 
 The project situation determines the reference:
 
 | Example prompt | Agent action |
 |---|---|
-| `Add Mayar payments. Use the recommended options.` | Use the recommended interview choices. |
+| `Add Mayar payments. Use the recommended options.` | Use the recommended interview choices, including `hosted` checkout. |
+| `Keep the buyer on my site. Open Mayar checkout in an overlay.` | Record `embedded`. Load `references/checkout-embedded.md`. |
+| `Render QRIS and virtual accounts in my own UI.` | Record `native`. Load `references/checkout-native.md`. |
 | `My website uses TanStack Start. Add Mayar payments.` | Load `references/stack-tanstack-start.md` during Implement. |
 | `My project is a React Vite SPA. Can it accept payments?` | Explain the server-runtime requirement from `stack-vite-react.md`. |
 | `My payment webhook runs fulfillment twice. Check it.` | Load `references/webhook-safety.md`. |
@@ -222,6 +246,9 @@ provider. Ask Mayar support about commercial terms, pricing, or account status.
   verifies the mapping.
 - Mayar does not provide an official SDK. Stack references use native `fetch`
   with a small helper.
+- The public V2 index does not define embed, iframe, overlay, or
+  `paymentDetail`. Embedded checkout embeds the documented `link`. Native
+  checkout treats `paymentDetail` as untrusted input.
 - `metadata.version` is the skill version. It is not the Mayar product version.
 
 ## Validate the skill

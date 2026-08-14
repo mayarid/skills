@@ -9,10 +9,15 @@ Each integration must provide:
 
 1. A server-only `{ apiKey, environment }` configuration.
 2. An HTTP helper that parses the V2 envelope.
-3. A checkout route that validates input and returns `{ url }`.
+3. A checkout route that validates input and returns `{ url }` for `hosted`
+   and `embedded`. For `native`, also return the normalized instrument.
 4. A client CTA with loading and error states.
-5. A redirect page for user interface feedback only.
-6. A server-side webhook or polling process when fulfillment requires an
+5. Client presentation from the approved checkout type:
+   - `hosted` → validate `url`, then `window.location.assign(url)`.
+   - `embedded` → follow [checkout-embedded.md](checkout-embedded.md).
+   - `native` → follow [checkout-native.md](checkout-native.md).
+6. A return page for user interface feedback only. It grants nothing.
+7. A server-side webhook or polling process when fulfillment requires an
    asynchronous status.
 
 A client-only SPA must use a server function or Worker.
